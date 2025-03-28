@@ -1,39 +1,22 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const {  STATUS_ENUM } = require('../enum/enums'); 
+
 
 const OrderSchema = new mongoose.Schema({
-  customer: {
-    name: {
-      type: String,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true
-    },
-    phoneNumber: {
-      type: String
-    },
-    address: {
-      type: String,
-    }
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User',
+    required: true
   },
-  orderDetails: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'OrderDetail' 
-  }],
   status: {
     type: String,
-    enum: ['Pending', 'In Progress', 'Completed', 'Cancelled'],
-    default: 'Pending'
+    enum: STATUS_ENUM,
+    default: 'pending'
   },
   totalAmount: {
     type: Number,
     required: true
-  },
-  paymentStatus: {
-    type: String,
-    enum: ['Paid', 'Unpaid'],
-    default: 'Unpaid'
   },
   createdAt: {
     type: Date,

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const { CATEGORY_ENUM, MILK_OPTIONS_ENUM } = require('../enum/enums'); 
 
 const ProductSchema = new mongoose.Schema({
   name: { 
@@ -10,7 +12,7 @@ const ProductSchema = new mongoose.Schema({
   },
   category: { 
     type: String, 
-    enum: ['Hot Beverage', 'Cold Beverage', 'Tea', 'Smoothies', 'Breakfast', 'Lunch', 'Sweets'], 
+    enum: CATEGORY_ENUM, 
     required: true 
   },  
   basePrice: { 
@@ -25,18 +27,12 @@ const ProductSchema = new mongoose.Schema({
     default: true 
   },
   sizes: [{
-    label: { 
-      type: String, 
-      required: true 
-    },
-    additionalCost: { 
-      type: Number, 
-      default: 0 
-    }
+    type: Schema.ObjectId,
+    ref: 'Size'
   }],
   milkOptions: [{
     type: String,
-    enum: ['Regular', 'Oat Milk', 'Soy Milk'],
+    enum: MILK_OPTIONS_ENUM,
     default: 'Regular'
   }],
   extraShot: {
@@ -50,18 +46,12 @@ const ProductSchema = new mongoose.Schema({
     }
   },
   extras: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.ObjectId,
     ref: 'ExtraOption'
   }],
   flavors: [{
-    name: { 
-      type: String, 
-      required: true 
-    },
-    price: { 
-      type: Number, 
-      required: true 
-    } 
+    type: Schema.ObjectId,
+    ref: 'Flavor'
   }],
   allowMilkOptions: {
     type: Boolean, 
@@ -72,5 +62,16 @@ const ProductSchema = new mongoose.Schema({
     default: true
   }
 });
+
+
+ProductSchema.statics.getCategoryEnumValues = function() {
+  return CATEGORY_ENUM;
+};
+
+
+ProductSchema.statics.getMilkOptionsEnumValues = function() {
+  return MILK_OPTIONS_ENUM;
+};
+
 
 module.exports = mongoose.model('Product', ProductSchema);

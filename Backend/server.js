@@ -6,7 +6,7 @@ const routes = require('./src/routes');
 const app = express();
 const session = require('express-session');
 const dotenv = require('dotenv');
-const crypto = require('crypto');
+
 
 dotenv.config();
 
@@ -38,7 +38,10 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 
-const mongoDB = process.env.MONGODB_URI || "mongodb://localhost:27017/task-manager";
+
+const mongoDB = process.env.MONGODB_URI || "mongodb://localhost:27017/cafeGo";
+
+
 main().catch((err) => console.log(err));
 // MongoDB
 async function main() {

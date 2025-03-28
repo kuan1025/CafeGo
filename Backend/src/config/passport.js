@@ -14,16 +14,16 @@ dotenv.config();
 },
 async (accessToken, refreshToken, profile, done) => {
     const token = await generateToken({ googleId: profile.id, role: 'user' });
+    console.log("gen token "+ token)
     const user = {
       googleId: profile.id,  // Google ID
       email: profile.emails[0].value,  
       name: profile.displayName,  
-      role: 'user',  
-      token: token
+      role: 'user'
     };
 
-    console.log("DEBUG 1:", user);
-    return done(null, user);
+
+    return done(null, {user,token});
   }
 ));
 

@@ -9,12 +9,12 @@ router.post('/', ordersController.createOrder);
 router.get('/', ordersController.getAllOrders);
 
 
-router.get('/:orderId', ordersController.getOrderById);
+router.get('/:id', ordersController.getOrderById);
 
 
-router.patch('/:orderId', ordersController.updateOrderStatus);
+router.patch('/:id', ordersController.updateOrderStatus);
 
 
-router.delete('/:orderId', ordersController.deleteOrder);
+router.delete('/:id', ordersController.deleteOrder);
 
 module.exports = router;

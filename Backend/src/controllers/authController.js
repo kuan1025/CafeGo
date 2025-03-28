@@ -6,20 +6,16 @@ exports.googleLogin = passport.authenticate('google', { scope: ['profile', 'emai
 
 // Google login callback
 exports.googleCallback = (req, res, next) => {
-  passport.authenticate('google', { failureRedirect: '/' }, (err, user, info) => {
+  passport.authenticate('google', { failureRedirect: '/' }, (err, data, info) => {
+    console.log("PASS : "+ data)
     if (err) return next(err);
-    if (!user) return res.redirect('/');
+    if (!data) return res.redirect('/');
 
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      //  JWT Token
-      const token = generateToken(user);
-      // console.log("Session Data after Google login:", req.session);
-      // console.log("User Data after Google login:", req.user);
-      // console.log("Generated Token:", token);
-      res.json({ token, user });
-    });
+    const { user, token } = data;
+    res.json({ token, user });
+
   })(req, res, next);
+  
 };
 
 // log out
