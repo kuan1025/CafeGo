@@ -7,10 +7,10 @@ exports.googleLogin = passport.authenticate('google', { scope: ['profile', 'emai
 // Google login callback
 exports.googleCallback = (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/' }, (err, data, info) => {
-    console.log("PASS : "+ data)
+    // console.log("PASS : "+ data)
     if (err) return next(err);
     if (!data) return res.redirect('/');
-
+    
     const { user, token } = data;
     res.json({ token, user });
 
@@ -27,3 +27,4 @@ exports.logout = (req, res) => {
     res.json({ message: "Logged out successfully" });
   });
 };
+

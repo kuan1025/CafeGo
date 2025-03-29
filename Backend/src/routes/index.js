@@ -8,6 +8,7 @@ const extraOptionRoutes = require('./extraOption');
 const flavorRoutes = require('./flavor');
 const sizeRoutes = require('./size');
 const orderDetailRoute = require('./orderDetail');
+const userRoutes = require('./user');
 
 
 router.use('/auth', authRoutes);
@@ -20,7 +21,7 @@ router.use('/api/size/', sizeRoutes);
 router.use('/api/orders', orderRoutes);
 router.use('/api/orderDetail', orderDetailRoute);
 
-
+router.use('/api/user', userRoutes);
 
 
 
