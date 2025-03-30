@@ -12,7 +12,7 @@ router.get('/', ordersController.getAllOrders);
 router.get('/:id', ordersController.getOrderById);
 
 
-router.patch('/:id', ordersController.updateOrderStatus);
+router.put('/:id', ordersController.updateOrderStatus);
 
 
 router.delete('/:id', ordersController.deleteOrder);

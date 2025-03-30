@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const {  MILK_OPTIONS_ENUM } = require('../enum/enums'); 
+const { MILK_OPTIONS_ENUM } = require('../enum/enums');
+
 const OrderDetailSchema = new mongoose.Schema({
   order: {
     type: Schema.ObjectId,
@@ -15,22 +16,12 @@ const OrderDetailSchema = new mongoose.Schema({
   size: {
     type: Schema.ObjectId,
     ref: 'Size',
-    required: true
+    default: null 
   },
   milkOption: {
     type: String,
     enum: MILK_OPTIONS_ENUM,
     default: 'Regular'
-  },
-  extraShot: {
-    price: { 
-      type: Number, 
-      default: 1 
-    },
-    label: { 
-      type: String, 
-      default: 'Extra Shot' 
-    }
   },
   extras: [{
     type: Schema.ObjectId,
@@ -45,10 +36,10 @@ const OrderDetailSchema = new mongoose.Schema({
     required: true,
     default: 1
   },
-  price: {
+  itemPrice: {
     type: Number,
     required: true
   }
-});
+}, { timestamps: true });
 
-module.exports =mongoose.model('OrderDetail', OrderDetailSchema);
+module.exports = mongoose.model('OrderDetail', OrderDetailSchema);

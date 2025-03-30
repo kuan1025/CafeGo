@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const {  STATUS_ENUM } = require('../enum/enums'); 
-
+const { STATUS_ENUM } = require('../enum/enums');
 
 const OrderSchema = new mongoose.Schema({
   user: {
@@ -9,6 +8,10 @@ const OrderSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  orderDetails: [{
+    type: Schema.ObjectId,
+    ref: 'OrderDetail' 
+  }],
   status: {
     type: String,
     enum: STATUS_ENUM,
@@ -17,15 +20,7 @@ const OrderSchema = new mongoose.Schema({
   totalAmount: {
     type: Number,
     required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Order', OrderSchema);

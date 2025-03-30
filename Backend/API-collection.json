@@ -1,0 +1,999 @@
+{
+	"info": {
+		"_postman_id": "16dbdb68-1847-469e-ae95-342ada1801d7",
+		"name": "CafeGo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43534582"
+	},
+	"item": [
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Caffe Latte\",\n  \"description\": \"A smooth and creamy coffee drink\",\n  \"category\": \"Hot Beverage\",\n  \"basePrice\": 5.0,\n  \"imageUrl\": \"https://example.com/caffelatte.jpg\",\n  \"sizes\": [\"67e91c50596ebeef314f6367\"],  // Example size IDs\n  \"milkOptions\": [\"Regular\", \"Oat Milk\"],\n  \"extraShot\": true,\n//   \"extras\": [\"5f3b7dbad0f6c519b4fa8f7e\"],  // Example extra ID (e.g., Bacon)\n//   \"flavors\": [\"5f3b7dbad0f6c519b4fa8f7f\"],  // Example flavor ID (e.g., Vanilla)\n  \"allowMilkOptions\": true,\n  \"allowExtraShot\": true\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/product",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProductById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwODcxNjIwMzk0MDg0MTQzNDc3NCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQzMTU4NTQ4LCJleHAiOjE3NDMxNjIxNDh9.RI_1z_zBB1EqLqroz9bvxoZJ8_gch88NP_Egl0ke_mc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e682c2f0cc3d9b0db4f39b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Caffe Latte\",\n  \"description\": \"A smooth and creamy coffee drink with new milk options\",\n  \"category\": \"Cold Beverage\",\n  \"basePrice\": 5.5,\n  \"imageUrl\": \"https://example.com/caffelatte_updated.jpg\",\n  \"milkOptions\": [\"Regular\"],  // Updated milk options\n  \"extraShot\": { \n    \"price\": 1, \n    \"label\": \"Compass\" \n  },\n  \"extras\": [\"5f3b7dbad0f6c519b4fa8f7e\"],  // Updated extra options\n  \"allowMilkOptions\": true,\n  \"allowExtraShot\": false\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/product/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67cc27d3b4e06096ea253"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67cc27d3b4e06096ea253"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "milkOptuins",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "size",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/size",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"size"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/size/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"size",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e61e0df54ebf03a34cef7c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/size/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"size",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e61e0df54ebf03a34cef7c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"label\": \"Medium\",\n    \"additionalCost\": 1.5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/size/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"size",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "flavor",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/flavors",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/flavors/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e629b1466b22736e870fb5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/flavors/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e629b1466b22736e870fb5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vanilla\",\n    \"price\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/flavors/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Chocolate\",\n    \"price\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/flavors/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e629b1466b22736e870fb5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "extraOption",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/extraOption",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/extraOption/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67a775b6c71ce6a95785c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/extraOption/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67a775b6c71ce6a95785c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Sauces\",\n  \"options\": [\n    { \"label\": \"Ketchup\", \"price\": 0 },\n    { \"label\": \"Mayo\", \"price\": 1.5 },\n    { \"label\": \"BBQ Sauce\", \"price\": 2 }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/extraOption/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Sauces\",\n  \"options\": [\n    { \"label\": \"Ketchup\", \"price\": 1 },\n    { \"label\": \"Mayo\", \"price\": 2.5 },\n    { \"label\": \"BBQ Sauce\", \"price\": 3.5 },\n    { \"label\": \"Honey Mustard\", \"price\": 1.8 }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/extraOption/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67a775b6c71ce6a95785c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/order",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/order/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e920655e1697b471e9ac22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/flavors/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e629b1466b22736e870fb5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"67e91c06596ebeef314f6362\",\n  \"products\": [\n    {\n      \"productId\": \"67e91cca596ebeef314f636e\",\n      \"sizeId\": \"67e91c50596ebeef314f6367\",\n      \"milkOption\": \"Oat Milk\",\n      \"extras\": [],\n      \"flavors\": [],\n      \"quantity\": 2\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/order/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"completed\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/order/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e920655e1697b471e9ac22"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orderDetail",
+			"item": [
+				{
+					"name": "getAll Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/flavors",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById Copy 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/flavors/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e629b1466b22736e870fb5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById Copy 2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/flavors/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e629b1466b22736e870fb5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vanilla\",\n    \"price\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/orders/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Copy 2",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Chocolate\",\n    \"price\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/flavors/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"flavors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e629b1466b22736e870fb5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"googleId\": \"12345\",\n  \"email\": \"user@example.com\",\n  \"name\": \"John Doe\",\n  \"role\": \"customer\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e7f4919cc35d6c28cd6994"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": \"admin\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e7f4919cc35d6c28cd6994"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e7f8ad359faea00c337086"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -16,14 +16,6 @@ passport.use(new GoogleStrategy({
     const token = await generateToken({ googleId: profile.id, role: 'user' });
     // console.log("gen token "+ token)
 
-    // phone
-    const axios = require('axios');
-    const peopleApiUrl = 'https://people.googleapis.com/v1/people/me?personFields=phoneNumbers';
-    const response = await axios.get(peopleApiUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
 
     let user = await User.findOne({ googleId: profile.id });
     if (!user) {
