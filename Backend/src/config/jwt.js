@@ -14,11 +14,11 @@ const generateToken = (user) => {
 
     console.log("User object:", user); 
 
-    if (!user.googleId || !user.role) {
+    if (!user || !user.role) {
         console.error("Error: Missing user.googleId or user.role");
         throw new Error('Missing user.googleId or user.role');
     }
-    return jwt.sign({ id: user.googleId, role: user.role }, JWT_SECRET, { expiresIn: JWT_EXPIRATION_TIME });
+    return jwt.sign({ user_Id: user._id, role: user.role }, JWT_SECRET, { expiresIn: JWT_EXPIRATION_TIME });
 };
 
 // verify JWT Token

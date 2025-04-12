@@ -23,4 +23,20 @@ const OrderSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+OrderSchema.pre('save', async function(next) {
+  if (this.isNew || this.isModified('orderDetails')) {
+    let total = 0;
+    for (let detailId of this.orderDetails) {
+      const detail = await mongoose.model('OrderDetail').findById(detailId);
+      if (detail) {
+        total += detail.itemPrice * detail.quantity;
+      }
+    }
+    this.totalAmount = total;
+  }
+  next();
+});
+
+
+
 module.exports = mongoose.model('Order', OrderSchema);

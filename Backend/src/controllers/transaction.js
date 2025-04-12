@@ -1,7 +1,7 @@
 const Transaction = require('../models/transaction');
 const Order = require('../models/order');
 const { v4: uuidv4 } = require('uuid'); 
-const axios = require('axios'); // call api
+
 
 // create transaction
 exports.createTransaction = async (req, res) => {

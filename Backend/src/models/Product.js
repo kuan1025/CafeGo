@@ -27,37 +27,18 @@ const ProductSchema = new mongoose.Schema({
     default: true 
   },
   sizes: [{
-    type: Schema.ObjectId,
-    ref: 'Size'
+    label: { type: String, required: true },
+    price: { type: Number, required: true }
   }],
   milkOptions: [{
-    type: String,
-    enum: MILK_OPTIONS_ENUM,
-    default: 'Regular'
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
   }],
-  extraShot: {
-    price: { 
-      type: Number, 
-      default: 1 
-    },
-    label: { 
-      type: String, 
-      default: 'Extra Shot' 
-    }
-  },
   extras: [{
     type: Schema.ObjectId,
     ref: 'ExtraOption'
   }],
-  flavors: [{
-    type: Schema.ObjectId,
-    ref: 'Flavor'
-  }],
   allowMilkOptions: {
-    type: Boolean, 
-    default: true
-  },
-  allowExtraShot: {
     type: Boolean, 
     default: true
   }

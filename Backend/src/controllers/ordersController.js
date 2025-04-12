@@ -1,93 +1,109 @@
 const Order = require('../models/order');
 const OrderDetail = require('../models/orderDetail');
 const Product = require('../models/product');
-const Size = require('../models/size');
 const ExtraOption = require('../models/extraOption');
-const Flavor = require('../models/flavor');
+
 
 exports.createOrder = async (req, res) => {
   try {
-    const { userId, products } = req.body;
+    const { user, items } = req.body;
 
-    
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ message: 'Order items are required.' });
+    }
+
+    let totalAmount = 0;
+    const orderDetails = [];
+
+    // create Order
     const newOrder = new Order({
-      user: userId,
-      orderDetails: [],  
-      totalAmount: 0
+      user,
+      totalAmount: 0, 
     });
     await newOrder.save();
 
-    let totalAmount = 0;
-    let orderDetails = [];
+    for (const item of items) {
+      const {
+        productId,
+        selectedSizeLabel,
+        selectedMilkName,
+        selectedExtras = [],
+        quantity
+      } = item;
 
-    for (const item of products) {
-      const product = await Product.findById(item.productId);
-      if (!product) return res.status(404).json({ message: `Product not found: ${item.productId}` });
-
-      let itemPrice = product.basePrice;
-
-      // Size + price
-      let size = null;
-      if (item.sizeId) {
-        size = await Size.findById(item.sizeId);
-        if (!size) return res.status(404).json({ message: `Size not found: ${item.sizeId}` });
-        itemPrice += size.additionalCost;
+      const product = await Product.findById(productId).populate('extras');
+      if (!product) {
+        return res.status(404).json({ message: `Product not found: ${productId}` });
       }
 
-      // extra options
-      let extras = [];
-      if (item.extras) {
-        for (const extraId of item.extras) {
-          const extra = await ExtraOption.findById(extraId);
-          if (!extra) return res.status(404).json({ message: `Extra not found: ${extraId}` });
-          extras.push(extra._id);
-          itemPrice += extra.price;
-        }
+      const size = product.sizes.find(s => s.label === selectedSizeLabel);
+      if (!size) {
+        return res.status(400).json({ message: `Size not found: ${selectedSizeLabel}` });
       }
 
-      // flavor
-      let flavors = [];
-      if (item.flavors) {
-        for (const flavorId of item.flavors) {
-          const flavor = await Flavor.findById(flavorId);
-          if (!flavor) return res.status(404).json({ message: `Flavor not found: ${flavorId}` });
-          flavors.push(flavor._id);
-        }
+      const milkOption = product.milkOptions.find(m => m.name === selectedMilkName);
+      if (!milkOption && product.allowMilkOptions) {
+        return res.status(400).json({ message: `Milk option not found: ${selectedMilkName}` });
       }
 
-    
+      const extrasInProduct = await ExtraOption.find({ _id: { $in: selectedExtras } });
+      const extras = [];
+      let extrasPrice = 0;
+      for (const extra of extrasInProduct) {
+        extras.push({
+          name: extra.name,
+          price: extra.price,
+        });
+        extrasPrice += extra.price;
+      }
+
+      const sizePrice = size.price || 0;
+      const milkPrice = milkOption.price || 0;
+      const basePrice = product.basePrice;
+      const itemPrice = (basePrice + sizePrice + milkPrice + extrasPrice) * quantity;
+
+      totalAmount += itemPrice;
+
       const orderDetail = new OrderDetail({
         order: newOrder._id,  
-        product: item.productId,
-        size: size ? size._id : null,
-        milkOption: item.milkOption || 'Regular',
+        product: product._id,
+        productName: product.name,
+        basePrice,
+        size,
+        milkOption,
         extras,
-        flavors,
-        quantity: item.quantity,
+        quantity,
         itemPrice
       });
 
+      console.log('Saving OrderDetail:', orderDetail);  
       await orderDetail.save();
       orderDetails.push(orderDetail._id);
-      totalAmount += itemPrice * item.quantity;
     }
 
-    newOrder.orderDetails = orderDetails;
+    // update
     newOrder.totalAmount = totalAmount;
+    newOrder.orderDetails = orderDetails;
     await newOrder.save();
 
-    res.status(201).json(newOrder);
+    res.status(201).json({ order: newOrder });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating order', error });
+    console.error("Error creating order:", error);  // debug
+    res.status(500).json({ message: 'Error creating order', error: error.message });
   }
 };
 
+
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('user').populate({
+    const orders = await Order.find().populate({
       path: 'orderDetails',
-      populate: ['product', 'size', 'extras', 'flavors']
-    });
+      populate: {
+        path: 'product', 
+        select: 'name price' 
+      }
+    }).populate('user');
+
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching orders', error });
@@ -96,40 +112,78 @@ exports.getAllOrders = async (req, res) => {
 
 exports.getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id)
-      .populate('user')
-      .populate({
-        path: 'orderDetails',
-        populate: ['product', 'size', 'extras', 'flavors']
-      });
+    const order = await Order.findById(req.params.id).populate({
+      path: 'orderDetails',
+      populate: {
+        path: 'product',  
+      }
+    }).populate('user');  
 
-    if (!order) return res.status(404).json({ message: 'Order not found' });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
     res.status(200).json(order);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching order', error });
+    res.status(500).json({ message: 'Error retrieving order', error });
   }
 };
 
-exports.updateOrderStatus = async (req, res) => {
+exports.getOrdersByUser = async (req, res) => {
   try {
-    const { status } = req.body;
-    const updatedOrder = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    const userId = req.params.userId;
+    // console.log("userId : "+ userId);
+    const orders = await Order.find({ user: userId }).populate({
+      path: 'orderDetails',
+      populate: {
+        path: 'product',  
+      }
+    }).populate('user');  
 
-    if (!updatedOrder) return res.status(404).json({ message: 'Order not found' });
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ message: `No orders found for user: ${userId}` });
+    }
+
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving orders', error });
+  }
+};
+
+
+
+exports.updateOrder = async (req, res) => {
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    ).populate('user orderDetails');
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
     res.status(200).json(updatedOrder);
   } catch (error) {
     res.status(500).json({ message: 'Error updating order', error });
   }
 };
 
+
 exports.deleteOrder = async (req, res) => {
   try {
-    const deletedOrder = await Order.findByIdAndDelete(req.params.id);
-    if (!deletedOrder) return res.status(404).json({ message: 'Order not found' });
+    const order = await Order.findById(req.params.id);
 
-    await OrderDetail.deleteMany({ order: req.params.id });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
 
-    res.status(200).json({ message: 'Order deleted successfully' });
+
+    await OrderDetail.deleteMany({ _id: { $in: order.orderDetails } });
+    await order.deleteOne();
+
+    res.status(200).json({ message: 'Order and details deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting order', error });
   }

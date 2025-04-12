@@ -1,9 +1,5 @@
-const  Product  = require("../models/product");
-const  Size  = require("../models/size");
-const  ExtraOption  = require("../models/extraOption");
-const  Flavor = require("../models/flavor");
-
-
+const Product = require("../models/product");
+const ExtraOption = require("../models/extraOption");
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -26,9 +22,8 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-// Create a new Product 
+// Create a new Product
 exports.createProduct = async (req, res) => {
-
   try {
     const {
       name,
@@ -36,40 +31,41 @@ exports.createProduct = async (req, res) => {
       category,
       basePrice,
       imageUrl,
-      sizes,
-      milkOptions,
-      extraShot,
+      sizes,  // Array of { label, price }
+      milkOptions, // Array of { name, price }
       extras,
-      flavors,
-      allowMilkOptions,
-      allowExtraShot
+      allowMilkOptions
     } = req.body;
 
-    const productSizes = await Size.find({ _id: { $in: sizes } });
-    const productFlavors = await Flavor.find({ _id: { $in: flavors } });
-    const productExtras = await ExtraOption.find({ _id: { $in: extras } });
+    // Validate sizes and milkOptions structure
+    if (!Array.isArray(sizes) || !sizes.every(s => s.label && s.price)) {
+      return res.status(400).json({ message: 'Invalid sizes format' });
+    }
 
-   
+    if (!Array.isArray(milkOptions) || !milkOptions.every(m => m.name && m.price)) {
+      return res.status(400).json({ message: 'Invalid milk options format' });
+    }
 
+    const productExtraOptions = await ExtraOption.find({ _id: { $in: extras } });
+
+    
+
+    // Create the new product directly with embedded sizes and milkOptions
     const newProduct = new Product({
       name,
       description,
       category,
       basePrice,
       imageUrl,
-      sizes: productSizes,
-      milkOptions,
-      extraShot,
-      extras: productExtras,
-      flavors: productFlavors,
-      allowMilkOptions,
-      allowExtraShot
+      sizes,  
+      milkOptions,  
+      extras : productExtraOptions,  
+      allowMilkOptions
     });
 
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (error) {
-    console.log(error.message)
     res.status(500).json({ message: 'Error creating product', error });
   }
 };
@@ -84,21 +80,29 @@ exports.updateProduct = async (req, res) => {
       category,
       basePrice,
       imageUrl,
-      sizes,
-      milkOptions,
-      extraShot,
+      sizes,  
+      milkOptions, 
       extras,
-      flavors,
-      allowMilkOptions,
-      allowExtraShot
+      allowMilkOptions
     } = req.body;
 
- 
-    const productSizes = await Size.find({ _id: { $in: sizes } });
-    const productFlavors = await Flavor.find({ _id: { $in: flavors } });
-    const productExtras = await ExtraOption.find({ _id: { $in: extras } });
+    // Validate sizes and milkOptions structure
+    if (!Array.isArray(sizes) || !sizes.every(s => s.label && s.price)) {
+      return res.status(400).json({ message: 'Invalid sizes format' });
+    }
 
-    
+    if (!Array.isArray(milkOptions) || !milkOptions.every(m => m.name && m.price)) {
+      return res.status(400).json({ message: 'Invalid milk options format' });
+    }
+
+    const productExtraOptions = await ExtraOption.find({ _id: { $in: extras } });
+
+
+    if (productExtraOptions.length !== extraOptions.length) {
+      return res.status(404).json({ message: 'Some extra options not found' });
+    }
+
+    // Update the product with the provided details
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
       {
@@ -107,13 +111,10 @@ exports.updateProduct = async (req, res) => {
         category,
         basePrice,
         imageUrl,
-        sizes: productSizes,
-        milkOptions,
-        extraShot,
-        extras: productExtras,
-        flavors: productFlavors,
-        allowMilkOptions,
-        allowExtraShot
+        sizes, 
+        milkOptions,  
+        extras : productExtraOptions,
+        allowMilkOptions
       },
       { new: true }
     );
@@ -153,4 +154,3 @@ exports.getMilkOptionsValues = async (req, res) => {
     res.status(500).json({ message: 'Error fetching options', error });
   }
 };
-

@@ -4,6 +4,7 @@ const orderDetailController = require('../controllers/orderDetailController');
 
 
 router.post('/', orderDetailController.createOrderDetail); 
+
 router.get('/', orderDetailController.getAllOrderDetails); 
 router.get('/:id', orderDetailController.getOrderDetailById);
 router.put('/:id', orderDetailController.updateOrderDetail); 

@@ -5,16 +5,11 @@ const ExtraOptionSchema = new mongoose.Schema({
       type: String, 
       required: true 
     },
-    options: [{ 
-      label: { 
-        type: String, 
-        required: true 
-      },
-      price: { 
+    price: { 
         type: Number, 
         default: 0 
-      } 
-    }],
+    } 
+ 
   });
   
   module.exports = mongoose.model('ExtraOption', ExtraOptionSchema);

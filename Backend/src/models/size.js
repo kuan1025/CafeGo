@@ -1,13 +1,8 @@
 const mongoose = require('mongoose');
 const SizeSchema = new mongoose.Schema({
-    label: {
-      type: String,
-      required: true
-    },
-    additionalCost: {
-      type: Number,
-      default: 0
-    },
-  });
-  
-  module.exports = mongoose.model('Size', SizeSchema);
+  name: { type: String, required: true },  
+  label: { type: String },                
+  price: { type: Number, required: true },
+});
+
+module.exports = mongoose.model('Size', SizeSchema);

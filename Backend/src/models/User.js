@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const UserSchema = new mongoose.Schema({
-    googleId: { type: String, unique: true }, 
+    googleId: { type: String }, 
     email: { type: String, unique: true },
     name: { type: String, required: true },
     token: { type: String },
+    password : {type : String},
     role: { type: String, enum: ['customer', 'admin'], default: 'customer' }, 
     createdAt: { type: Date, default: Date.now }
   });

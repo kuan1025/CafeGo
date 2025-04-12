@@ -1,5 +1,5 @@
 const passport = require('../config/passport');
-const { generateToken } = require('../config/jwt');
+
 
 // Google login
 exports.googleLogin = passport.authenticate('google', { scope: ['profile', 'email'] });
@@ -7,12 +7,15 @@ exports.googleLogin = passport.authenticate('google', { scope: ['profile', 'emai
 // Google login callback
 exports.googleCallback = (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/' }, (err, data, info) => {
-    // console.log("PASS : "+ data)
+     console.log("PASS : "+ data)
     if (err) return next(err);
     if (!data) return res.redirect('/');
     
     const { user, token } = data;
-    res.json({ token, user });
+
+    const redirectUrl = `http://localhost:5173/oauth-success?token=${token}&name=${encodeURIComponent(user.name)}&email=${user.email}`;
+    res.redirect(redirectUrl);
+
 
   })(req, res, next);
   
