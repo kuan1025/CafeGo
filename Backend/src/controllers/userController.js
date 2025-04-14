@@ -41,11 +41,13 @@ exports.login = async (req, res) => {
     if (user.password !== password) {
       return res.status(401).json({ message: "email is not existed or Incorrect password" });
     }
-    const token = generateToken({ user_Id: user._id, role: user.role });
+
+    const token = generateToken({ id: user._id, role: user.role });
 
     res.json({ user :{
       name : user.name,
-      email : user.email
+      email : user.email,
+      role : user.role
     } ,token });
   } catch (err) {
     console.error("Login error:", err);

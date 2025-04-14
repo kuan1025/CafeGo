@@ -6,18 +6,27 @@ const routes = require('./src/routes');
 const app = express();
 const session = require('express-session');
 const dotenv = require('dotenv');
+const cookieParser = require("cookie-parser");
+
+
 
 
 dotenv.config();
 
 
 // set CORS & JSON body 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true, 
+  }));
 app.use(express.json());
 
 
+// product image upload
+app.use("/uploads", express.static("uploads"));
 
-// session
+
+// session OAuth2
 app.use(session({
     secret: process.env.SESSION_SECRET, 
     resave: false, 
@@ -25,11 +34,16 @@ app.use(session({
     cookie: { secure: false } 
 }));
 
+
+// cookie
+app.use(cookieParser());
+
+
 // init Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+// debug
 app.use((req, res, next) => {
     console.log("Session ID:", req.sessionID);
     console.log("Session:", req.session);

@@ -2,6 +2,7 @@ const express = require('express');
 const {authenticateUser }= require('../middleware/authMiddleware');
 const router = express.Router();
 const productController = require('../controllers/productController');
+const { uploadImg } = require('../middleware/imageStorage'); 
 
 
 router.get('/', productController.getAllProducts);
@@ -12,7 +13,7 @@ router.get('/milkOptuins', productController.getMilkOptionsValues);
 
 router.get('/:id', productController.getProductById);
 
-router.post('/', productController.createProduct);
+router.post('/', uploadImg.single("image"),productController.createProduct);
 
 router.put('/:id', productController.updateProduct);
 

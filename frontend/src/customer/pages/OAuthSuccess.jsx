@@ -1,23 +1,26 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function OAuthSuccessPage() {
+  const { loginSuccess } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-    const name = params.get("name");
-    const email = params.get("email");
-
-
-    if (token && name && email) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify({ name, email }));
-        // back to home page
+    fetch("http://localhost:5001/api/auth/getMe", {
+      credentials: "include" // carry cookie!
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const { user, token } = data;
+        loginSuccess(user, token);
         navigate("/");
-      }
+      })
+      .catch((err) => {
+        console.error(err);
+        navigate("/");
+      });
   }, []);
 
-  return <div>Logging in...</div>;
+  return <p>Logging you in...</p>;
 }

@@ -7,6 +7,7 @@ const orderRoutes = require('./orders');
 const extraOptionRoutes = require('./extraOption');
 const orderDetailRoute = require('./orderDetail');
 const userRoutes = require('./user');
+const categoryRoutes = require('./category')
 
 
 router.use('/api/auth', authRoutes);
@@ -19,6 +20,9 @@ router.use('/api/order', orderRoutes);
 router.use('/api/orderDetail', orderDetailRoute);
 
 router.use('/api/user', userRoutes);
+
+
+router.use('/api/category', categoryRoutes);
 
 
 

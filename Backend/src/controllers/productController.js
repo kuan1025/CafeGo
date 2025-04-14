@@ -1,6 +1,8 @@
 const Product = require("../models/product");
 const ExtraOption = require("../models/extraOption");
 
+
+
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -30,43 +32,34 @@ exports.createProduct = async (req, res) => {
       description,
       category,
       basePrice,
-      imageUrl,
-      sizes,  // Array of { label, price }
-      milkOptions, // Array of { name, price }
+      available,
+      allowMilkOptions,
       extras,
-      allowMilkOptions
+      sizes,
+      milkOptions,
     } = req.body;
 
-    // Validate sizes and milkOptions structure
-    if (!Array.isArray(sizes) || !sizes.every(s => s.label && s.price)) {
-      return res.status(400).json({ message: 'Invalid sizes format' });
-    }
+    // middleware -> req + file
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : "";
 
-    if (!Array.isArray(milkOptions) || !milkOptions.every(m => m.name && m.price)) {
-      return res.status(400).json({ message: 'Invalid milk options format' });
-    }
-
-    const productExtraOptions = await ExtraOption.find({ _id: { $in: extras } });
-
-    
-
-    // Create the new product directly with embedded sizes and milkOptions
-    const newProduct = new Product({
+    const product = new Product({
       name,
       description,
       category,
       basePrice,
       imageUrl,
-      sizes,  
-      milkOptions,  
-      extras : productExtraOptions,  
-      allowMilkOptions
+      available,
+      allowMilkOptions: allowMilkOptions === "true", // cuz formData is String!!
+      extras: JSON.parse(extras),
+      sizes: JSON.parse(sizes),
+      milkOptions: JSON.parse(milkOptions),
     });
 
-    await newProduct.save();
-    res.status(201).json(newProduct);
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating product', error });
+    await product.save();
+    res.status(201).json(product);
+  } catch (err) {
+    console.error("Create product error", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

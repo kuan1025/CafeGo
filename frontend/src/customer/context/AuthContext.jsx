@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }){
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -13,9 +14,11 @@ export function AuthProvider({ children }){
     }
   }, []);
 
-  const loginSuccess = (user) => {
+  const loginSuccess = (user, token) => {
     setUser(user);
+    setToken(token);
     localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token",token);
     setModalOpen(false);
   };
 
@@ -29,6 +32,7 @@ export function AuthProvider({ children }){
     <AuthContext.Provider value={{
       user,
       modalOpen,
+      token,
       setModalOpen,
       loginSuccess,
       logout

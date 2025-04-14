@@ -33,15 +33,14 @@ export default function AuthModal({ opened, onClose ,onLoginSuccess}) {
       if (isLogin) {
         const res = await login(form);
         console.log("Login success:", res);
-        localStorage.setItem("token", res.token);
-        localStorage.setItem('user', JSON.stringify(res.user));
         notifications.show({
-        title: "Login Successful",
-        message: `Welcome back, ${res.user.name}`,
-        color: "green",
-      });
+          title: "Login Successful",
+          message: `Welcome back, ${res.user.name}`,
+          color: "green",
+        });
       if (onLoginSuccess) {
-        onLoginSuccess(res.user);
+        onLoginSuccess(res.user,res.token);
+      
       }
       
       onClose();

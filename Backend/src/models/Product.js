@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { CATEGORY_ENUM, MILK_OPTIONS_ENUM } = require('../enum/enums'); 
+
 
 const ProductSchema = new mongoose.Schema({
   name: { 
@@ -10,10 +10,10 @@ const ProductSchema = new mongoose.Schema({
   description: { 
     type: String 
   },
-  category: { 
-    type: String, 
-    enum: CATEGORY_ENUM, 
-    required: true 
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
   },  
   basePrice: { 
     type: Number, 

@@ -1,112 +1,130 @@
+// AppShell is a layout component that can be used to create a common Header - Navbar - Footer - Aside - Content layout 
 import { useState } from "react";
-import {
-  AppShell,
-  Navbar,
-  Text,
-  Button,
-  Divider,
-  Title,
-  Stack,
-  MantineProvider,
-  ScrollArea,
-  Accordion,
-  UnstyledButton,
-  Group,
-} from "@mantine/core";
-import {
-  IconPlus,
-  IconEdit,
-  IconEye,
-  IconChevronDown,
-  IconPackage,
-} from "@tabler/icons-react";
-import CreateProductForm from "./product/createProduct";
+import {AppShell,Navbar,Button,Divider,Title,Stack,ScrollArea,Accordion } from "@mantine/core";
+import {IconPlus,IconEdit,IconEye,IconChevronDown,IconPackage } from "@tabler/icons-react";
+import CreateProductForm from "../components/CreateProductForm";
+import CreateCategoryForm from "../components/CreateCategoryForm";
+import ViewCategories from "./ViewCategories";
 
 export function AdminHome() {
-  const [activePage, setActivePage] = useState("create");
+  // default 
+  const [activePage, setActivePage] = useState("create-product");
 
   return (
-    <MantineProvider
-      theme={{
-        colorScheme: "light", // Light theme instead of dark
-        primaryColor: "blue",
-        fontFamily: "Inter, sans-serif",
-      }}
-      withGlobalStyles
-      withNormalizeCSS
-    >
-      <AppShell
-        padding="md"
-        navbar={
-          <Navbar width={{ base: 260 }} p="md" withBorder={false}>
-            <Stack spacing="sm" align="stretch">
-              <Title order={3} c="black">
-                CafeGo Admin
-              </Title>
-              <Divider my="sm" />
+    <AppShell
+      padding="md"
+      navbar={
+        <Navbar width={{ base: 260 }} p="md">
+          <Stack spacing="sm" >
+            <Title order={2} c="blue">
+              CafeGo Admin
+            </Title>
+            {/* devide  */}
+            <Divider my="sm" />
 
-              <Accordion
-                defaultValue="manage-product"
-                chevron={<IconChevronDown size={14} />}
-                styles={{
-                  item: { backgroundColor: "transparent", border: "none" },
-                  control: { padding: "8px 0" },
-                }}
-              >
-                <Accordion.Item value="manage-product">
-                  <Accordion.Control icon={<IconPackage size={16} color="#74c0fc" />}>
-                    Manage Product
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <Stack gap={4}>
-                      <Button
-                        variant={activePage === "create" ? "filled" : "light"}
-                        leftIcon={<IconPlus size={16} />}
-                        color="blue"
-                        fullWidth
-                        onClick={() => setActivePage("create")}
-                      >
-                        Create Product
-                      </Button>
-                      <Button
-                        variant={activePage === "edit" ? "filled" : "light"}
-                        leftIcon={<IconEdit size={16} />}
-                        color="blue"
-                        fullWidth
-                        onClick={() => setActivePage("edit")}
-                      >
-                        Edit Product
-                      </Button>
-                      <Button
-                        variant={activePage === "view" ? "filled" : "light"}
-                        leftIcon={<IconEye size={16} />}
-                        color="blue"
-                        fullWidth
-                        onClick={() => setActivePage("view")}
-                      >
-                        View Products
-                      </Button>
-                    </Stack>
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-            </Stack>
-          </Navbar>
-        }
-        styles={{
-          main: {
-            backgroundColor: "#f4f6f9", // Lighter background for the main content
-            color: "#000000", // Black text color for readability
-          },
-        }}
-      >
-        <ScrollArea type="always" offsetScrollbars>
-          {activePage === "create" && <CreateProductForm />}
-          {activePage === "edit" && <div>Edit Product Page (Coming Soon)</div>}
-          {activePage === "view" && <div>View Products Page (Coming Soon)</div>}
-        </ScrollArea>
-      </AppShell>
-    </MantineProvider>
+            {/* Divide content into collapsible sections  */}
+            <Accordion
+              defaultValue="manage-product"
+              chevron={<IconChevronDown size={14} />}
+              styles={{
+                control: { padding: "8px 0" },
+              }}
+            >
+              <Accordion.Item value="manage-product">
+
+                <Accordion.Control icon={<IconPackage size={16} color="#74c0fc" />}>
+                  Manage Product
+                </Accordion.Control>
+
+                <Accordion.Panel>
+
+                  <Stack gap={4}>
+
+                    <Button
+                      variant={activePage === "create-product" ? "filled" : "light"}
+                      leftIcon={<IconPlus size={16} />}
+                      onClick={() => setActivePage("create-product")}
+                    >
+                      Create Product
+                    </Button>
+                    <Button
+                      variant={activePage === "edit-product" ? "filled" : "light"}
+                      leftIcon={<IconEdit size={16} />}
+                      onClick={() => setActivePage("edit-product")}
+                    >
+                      Edit Product
+                    </Button>
+                    <Button
+                      variant={activePage === "view-product" ? "filled" : "light"}
+                      leftIcon={<IconEye size={16} />}
+                      onClick={() => setActivePage("view-product")}
+                    >
+                      View Products
+                    </Button>
+                  </Stack>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+            <Accordion
+              defaultValue="manage-category"
+              chevron={<IconChevronDown size={14} />}
+              styles={{
+                control: { padding: "8px 0" },
+              }}
+            >
+              <Accordion.Item value="manage-category">
+
+                <Accordion.Control icon={<IconPackage size={16} color="#74c0fc" />}>
+                  Manage Category
+                </Accordion.Control>
+
+                <Accordion.Panel>
+                  <Stack gap={4}>
+                    <Button
+                      variant={activePage === "create-category" ? "filled" : "light"}
+                      leftIcon={<IconPlus size={16} />}
+                      onClick={() => setActivePage("create-category")}
+                    >
+                      Create Category
+                    </Button>
+                    <Button
+                      variant={activePage === "edit-category" ? "filled" : "light"}
+                      leftIcon={<IconEdit size={16} />}
+                      onClick={() => setActivePage("edit-category")}
+                    >
+                      Edit Category
+                    </Button>
+                  </Stack>
+                </Accordion.Panel>
+              </Accordion.Item>
+
+            </Accordion>
+          </Stack>
+        </Navbar>
+      }
+
+      // main content
+      styles={{
+        main: {
+          backgroundColor: "#f4f6f9", 
+          color: "#000000", 
+        },
+      }}
+    >
+      <ScrollArea type="always" offsetScrollbars>
+
+        {/* product ------- */}
+        {activePage === "create-product" && <CreateProductForm/>}
+        {activePage === "edit-product" && <div>Edit Product Page (Coming Soon)</div>}
+        {activePage === "view-product" && <div>View Products Page (Coming Soon)</div>}
+
+        {/* category ------ */}
+        {activePage === "create-category" && <CreateCategoryForm />}
+        {activePage === "edit-category" && <ViewCategories/>}
+
+      </ScrollArea>
+    </AppShell>
+
   );
 }
 

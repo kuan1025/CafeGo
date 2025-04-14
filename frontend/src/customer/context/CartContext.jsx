@@ -19,7 +19,7 @@ export function CartProvider({ children }) {
       });
   
       if (existingItemIndex >= 0) {
-        console.log(" Adding item:", item);
+        // console.log(" Adding item:", item);
         const updatedCart = [...prevCart];
         updatedCart[existingItemIndex].quantity += item.quantity;
         return updatedCart;

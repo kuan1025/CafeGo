@@ -5,6 +5,8 @@ import ProductCard from "../components/ProductCard";
 import OrderSummary from "../components/OrderSummary";
 import { useCart } from "../context/CartContext";
 import Header from "../components/Header";
+import AuthModal from "../components/AuthModal";
+import { useAuth } from "../context/AuthContext";
 
 const products = {
   Coffee: [
@@ -24,6 +26,7 @@ const products = {
 export default function MenuPage() {
   const { cart, addToCart } = useCart();
   const [selectedCategory, setSelectedCategory] = useState("Coffee");
+  const { modalOpen, setModalOpen, loginSuccess } = useAuth();
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -74,6 +77,7 @@ export default function MenuPage() {
           </Box>
         </Grid.Col>
       </Grid>
+      <AuthModal opened={modalOpen} onClose={() => setModalOpen(false)} onLoginSuccess={loginSuccess} />
     </Box>
   </>
   );
