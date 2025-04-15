@@ -15,7 +15,7 @@ router.get('/:id', productController.getProductById);
 
 router.post('/', uploadImg.single("image"),productController.createProduct);
 
-router.put('/:id', productController.updateProduct);
+router.put('/:id', uploadImg.single("image") ,productController.updateProduct);
 
 router.delete('/:id', productController.deleteProduct);
 

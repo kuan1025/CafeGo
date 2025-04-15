@@ -83,6 +83,7 @@ export default function CreateProductForm() {
         setImage(null);
         setImageUrl("");
       } else {
+        console.log(res.status)
         notifications.show({
           title: "Error",
           message: "Server responded with an error",
@@ -146,7 +147,7 @@ export default function CreateProductForm() {
           <Stack>
             <TextInput label="Product Name" required value={name} onChange={(e) => setName(e.target.value)} />
             <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <Select label="Category"
+            <Select label="Category" withinPortal
               data={categories} required value={category} onChange={setCategory} />
             <NumberInput label="Base Price" required precision={2} value={basePrice} onChange={setBasePrice} />
           </Stack>

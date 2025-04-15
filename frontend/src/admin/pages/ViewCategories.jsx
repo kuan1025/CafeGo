@@ -6,6 +6,7 @@ import { IconTrash, IconEdit } from "@tabler/icons-react";
 import { getAllCategories, deleteCategory } from "../api/category";
 import { notifications } from "@mantine/notifications";
 import EditCategoryModal from "../components/EditCategoryForm";
+import DeleteConfirmModal from "../components/deleteConfirmModal";
 
 export default function ViewCategories() {
     const [categories, setCategories] = useState([]);
@@ -153,22 +154,11 @@ export default function ViewCategories() {
             {/* confirm */}
 
 
-            <Modal
-                opened={deleteModalOpened}
-                onClose={() => setDeleteModalOpened(false)}
-                title="Confirm Category Deletion"
-                centered
-            >
-                <Text mb="md">Are you sure you want to delete this category?</Text>
-                <Group position="right">
-                    <Button variant="default" onClick={() => setDeleteModalOpened(false)}>
-                        Cancel
-                    </Button>
-                    <Button color="red" onClick={handleDelete}>
-                        Delete
-                    </Button>
-                </Group>
-            </Modal>
+            <DeleteConfirmModal
+                deleteModalOpened={deleteModalOpened}
+                setDeleteModalOpened={setDeleteModalOpened}
+                handleDelete={handleDelete} />
+                
         </Paper>
 
         {  selectedCategory && (

@@ -1,5 +1,5 @@
 import { Box, Button, Group, Menu, Text, Avatar } from "@mantine/core";
-import { IconLogout, IconSettings, IconUser, IconDashboard } from "@tabler/icons-react";
+import { IconLogout, IconSettings,IconToolsKitchen2, IconUser, IconDashboard } from "@tabler/icons-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
@@ -21,7 +21,7 @@ export default function Header() {
         component="a"
         href="/"
         fw={900}
-        size="32px"
+        size="24px"
         style={{
           fontFamily: "'Playfair Display', serif",
           color: "#fff",
@@ -62,6 +62,16 @@ export default function Header() {
                 Admin Page
               </Menu.Item>
             )}
+            
+              <Menu.Item
+                icon={<IconToolsKitchen2 size={16} />}
+                component="a"
+                href="/"
+              >
+                Customer Page
+              </Menu.Item>
+            
+            
             <Menu.Item
               icon={<IconLogout size={16} />}
               onClick={logout}

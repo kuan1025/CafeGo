@@ -4,15 +4,20 @@ import {AppShell,Navbar,Button,Divider,Title,Stack,ScrollArea,Accordion } from "
 import {IconPlus,IconEdit,IconEye,IconChevronDown,IconPackage } from "@tabler/icons-react";
 import CreateProductForm from "../components/CreateProductForm";
 import CreateCategoryForm from "../components/CreateCategoryForm";
+import ViewProducts from "./ViewProducts";
 import ViewCategories from "./ViewCategories";
+import Header from "../../customer/components/Header";
 
 export function AdminHome() {
   // default 
   const [activePage, setActivePage] = useState("create-product");
 
   return (
+    <>
+     
     <AppShell
       padding="md"
+      header={<Header/>}
       navbar={
         <Navbar width={{ base: 260 }} p="md">
           <Stack spacing="sm" >
@@ -46,13 +51,6 @@ export function AdminHome() {
                       onClick={() => setActivePage("create-product")}
                     >
                       Create Product
-                    </Button>
-                    <Button
-                      variant={activePage === "edit-product" ? "filled" : "light"}
-                      leftIcon={<IconEdit size={16} />}
-                      onClick={() => setActivePage("edit-product")}
-                    >
-                      Edit Product
                     </Button>
                     <Button
                       variant={activePage === "view-product" ? "filled" : "light"}
@@ -102,6 +100,7 @@ export function AdminHome() {
           </Stack>
         </Navbar>
       }
+     
 
       // main content
       styles={{
@@ -115,8 +114,7 @@ export function AdminHome() {
 
         {/* product ------- */}
         {activePage === "create-product" && <CreateProductForm/>}
-        {activePage === "edit-product" && <div>Edit Product Page (Coming Soon)</div>}
-        {activePage === "view-product" && <div>View Products Page (Coming Soon)</div>}
+        {activePage === "view-product" && <ViewProducts/>}
 
         {/* category ------ */}
         {activePage === "create-category" && <CreateCategoryForm />}
@@ -125,7 +123,9 @@ export function AdminHome() {
       </ScrollArea>
     </AppShell>
 
+      </>
   );
+
 }
 
 export default AdminHome;

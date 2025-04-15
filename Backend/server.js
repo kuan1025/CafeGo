@@ -18,12 +18,13 @@ dotenv.config();
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true, 
+    exposedHeaders: ["Authorization","Link"],// pagination
   }));
 app.use(express.json());
 
 
 // product image upload
-app.use("/uploads", express.static("uploads"));
+app.use("/api/uploads", express.static("uploads"));
 
 
 // session OAuth2
