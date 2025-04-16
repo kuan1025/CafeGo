@@ -1,6 +1,6 @@
-const Order = require('../models/order');
-const OrderDetail = require('../models/orderDetail');
-const Product = require('../models/product');
+const Order = require('../models/Order');
+const OrderDetail = require('../models/OrderDetail');
+const Product = require('../models/Product');
 const ExtraOption = require('../models/extraOption');
 
 

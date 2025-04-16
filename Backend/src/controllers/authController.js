@@ -1,5 +1,5 @@
 const passport = require('../config/passport');
-const User = require('../models/user');
+const User = require('../models/User');
 const dotenv = require('dotenv');
 const { generateToken } = require('../config/jwt');
 const Role = require('../models/Role')
