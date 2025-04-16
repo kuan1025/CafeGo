@@ -1,14 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { googleLogin, googleCallback, logout, getMe } = require('../controllers/authController');
+const { signUp,googleLogin, googleCallback, logout, getMe, login } = require('../controllers/authController');
 const {authMiddleware }= require('../middleware/authMiddleware');
 
 router.get('/google', googleLogin);
 
 router.get('/google/callback', googleCallback);
 
-router.get('/logout', logout);
+router.post('/login', login);
+
+router.post('/', signUp);
+
+router.get('/logout', authMiddleware,logout);
 
 router.get('/getMe', authMiddleware ,getMe);
+
+
 
 module.exports = router;

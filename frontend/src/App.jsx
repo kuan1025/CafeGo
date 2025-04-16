@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-
+import ProtectedRoute from './route/ProtectedRoute';
 import AdminHome from './admin/pages/AdminLayout';
 import Home from './customer/pages/Home';
 import MenuPage from './customer/pages/MenuPage';
@@ -22,9 +22,10 @@ function App() {
 
         <Route path='/oauth-success' element={<OAuthSuccessPage/>} />
 
-
-      
-        <Route path="/admin/home" element={<AdminHome />} />
+        {/* only admin */}
+        <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']} />}>
+          <Route path="home" element={<AdminHome />} />
+        </Route>
 
       </Routes>
    

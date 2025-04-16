@@ -1,5 +1,6 @@
 const express = require('express');
-const {authenticateUser }= require('../middleware/authMiddleware');
+
+const {authenticateAdmin, authenticateUser}= require('../middleware/authMiddleware');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const { uploadImg } = require('../middleware/imageStorage'); 
@@ -13,11 +14,11 @@ router.get('/milkOptuins', productController.getMilkOptionsValues);
 
 router.get('/:id', productController.getProductById);
 
-router.post('/', uploadImg.single("image"),productController.createProduct);
+router.post('/',authenticateUser, uploadImg.single("image"),productController.createProduct);
 
-router.put('/:id', uploadImg.single("image") ,productController.updateProduct);
+router.put('/:id',authenticateUser, uploadImg.single("image") ,productController.updateProduct);
 
-router.delete('/:id', productController.deleteProduct);
+router.delete('/:id',authenticateUser, productController.deleteProduct);
 
 
 

@@ -1,17 +1,23 @@
 const User = require('../models/user');
-const { generateToken } = require('../config/jwt');
+const Role = require('../models/Role')
+
 
 exports.createUser = async (req, res) => {
   try {
-    let { googleId, email, name, role, password } = req.body;
+    let { googleId, email, name, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already registered' });
     }
-    if(!googleId){
-      googleId = '';
+    // only customer
+    const customerRole = await Role.findOne({ name: 'customer' });
+    if (!customerRole) {
+      return res.status(500).json({ message: 'Customer role not found in database' });
     }
-    const newUser = new User({ googleId, email, name, role , password});
+
+    if (!googleId) googleId = '';
+
+    const newUser = new User({ googleId, email, name, roles: [customerRole._id] , password});
     await newUser.save();
     res.status(201).json({ message: 'User created successfully', user: newUser });
   } catch (error) {
@@ -23,7 +29,7 @@ exports.createUser = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
     try {
-      const users = await User.find();
+      const users = await User.find().populate('roles', 'name');
       res.status(200).json(users);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching users', error });
@@ -31,33 +37,12 @@ exports.getAllUsers = async (req, res) => {
 };
 
 
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ message: "email is not existed or Incorrect password" });
-    }
-    if (user.password !== password) {
-      return res.status(401).json({ message: "email is not existed or Incorrect password" });
-    }
 
-    const token = generateToken({ id: user._id, role: user.role });
-
-    res.json({ user :{
-      name : user.name,
-      email : user.email,
-      role : user.role
-    } ,token });
-  } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ message: "Login failed", error: err });
-  }
-};
 
 exports.updateUser = async (req, res) => {
     try {
-      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('roles', 'name');
       if (!updatedUser) {
         return res.status(404).json({ message: 'User not found' });
       }
@@ -79,5 +64,21 @@ exports.deleteUser = async (req, res) => {
       res.status(500).json({ message: 'Error deleting user', error });
     }
   };
+
+  exports.getUserById = async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id).populate('roles', 'name');
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.status(200).json(user);
+    } catch (error) {
+      console.error('Error fetching user by ID:', error);
+      res.status(500).json({ message: 'Error fetching user', error });
+    }
+  };
+  
   
   

@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 // generate JWT Token
 const generateToken = (payload) => {
-    if (!payload || !payload.id || !payload.role) {
+    if (!payload || !payload.id || !payload.roles) {
       console.error("Invalid token payload:", payload);
       throw new Error('Invalid token payload.');
     }

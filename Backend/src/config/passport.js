@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { generateToken } = require('../config/jwt');
 const User = require('../models/user')
 const dotenv = require('dotenv');
+const Role = require('../models/Role');
 
 dotenv.config();
 
@@ -19,25 +20,32 @@ passport.use(new GoogleStrategy({
 
     let user = await User.findOne({ googleId });
 
-
+    const customerRole = await Role.findOne({ name: 'customer' });
+    console.log("customerRole "+ customerRole)
     if (!user) {
       user = await User.findOne({ email });
       if (user) {
         user.googleId = googleId;
+        
+        if (!user.roles || user.roles.length === 0) {
+          user.roles = customerRole ? [customerRole._id] : [];
+        }
       } else {
         user = new User({
           googleId: profile.id,  // Google ID
           email: email,
           name: profile.displayName,
-          role: 'customer'
+          roles: customerRole ? [customerRole._id] : []
         });
       }
     }
     await user.save();
-
-    const token = await generateToken({ id: user._id, role: user.role,});
-
-
+    await user.populate('roles', 'name');
+    
+    const token = await generateToken({
+      id: user._id,
+      roles: user.roles.map(r => r.name)
+    });
 
     return done(null, { user, token });
   }

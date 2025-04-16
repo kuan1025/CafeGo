@@ -2,18 +2,17 @@ const express = require('express');
 const router = express.Router();
 
 const extraOptionController = require('../controllers/extraOptionController');
+const { authenticateAdmin}= require('../middleware/authMiddleware');
 
+router.post('/',authenticateAdmin, extraOptionController.createExtraOption);
 
-// Create a new ExtraOption
-router.post('/', extraOptionController.createExtraOption);
-// Get all ExtraOption
 router.get('/', extraOptionController.getAllExtraOptions);
-// Get a specific ExtraOption by ID
+
 router.get('/:id', extraOptionController.getExtraOptionById);
-// Update a specific ExtraOption by ID
-router.put('/:id', extraOptionController.updateExtraOption);
-// Delete a specific ExtraOption by ID
-router.delete('/:id', extraOptionController.deleteExtraOption);
+
+router.put('/:id',authenticateAdmin, extraOptionController.updateExtraOption);
+
+router.delete('/:id',authenticateAdmin, extraOptionController.deleteExtraOption);
 
 
 module.exports = router;

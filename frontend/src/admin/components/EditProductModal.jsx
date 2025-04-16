@@ -28,13 +28,14 @@ export default function EditProductModal({ opened, onClose, product, onSave, cat
             setBasePrice(product.basePrice || 0);
             setCategory(product.category || "");
 
-            setSelectedExtras(product.extras || []);
+            // extra can be object or Id !!  
+            setSelectedExtras(product.extras?.map(extra => extra._id || extra) || []);
 
             setAllowMilkOptions(product.allowMilkOptions || false);
             setSizes(product.sizes || []);
             setMilkOptions(product.milkOptions || []);
         }
-    }, [product, extrasList]);
+    }, [product]);
 
     const handleSizeChange = (index, field, value) => {
         setSizes((prev) =>

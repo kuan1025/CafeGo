@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { STATUS_ENUM } = require('../enum/enums');
+
 
 const OrderSchema = new mongoose.Schema({
   user: {
@@ -12,11 +12,11 @@ const OrderSchema = new mongoose.Schema({
     type: Schema.ObjectId,
     ref: 'OrderDetail' 
   }],
-  status: {
-    type: String,
-    enum: STATUS_ENUM,
-    default: 'pending'
-  },
+  // status: {
+  //   type: String,
+  //   enum: STATUS_ENUM,
+  //   default: 'pending'
+  // },
   totalAmount: {
     type: Number,
     required: true

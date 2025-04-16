@@ -19,10 +19,22 @@ exports.authenticateUser = (req, res, next) => {
   next();
 };
 
-exports.authorizeAdmin = (req, res, next) => {
-  if (req.user?.role !== 'admin') {
-      return res.status(403).json({ message: 'Access Forbidden: Admins Only' });
+exports.authenticateAdmin = (req, res, next) => {
+
+  const token = req.headers['authorization']?.split(' ')[1]; 
+
+  if (!token) {
+    return res.status(403).json({ message: 'No token provided' });
   }
+
+  const decoded = verifyToken(token);
+  req.user = decoded;
+  const roles = req.user?.roles;
+  console.log(roles)
+  if (!roles || !roles.includes('admin')) {
+    return res.status(403).json({ message: 'Access Forbidden: Admins Only' });
+  }
+  
   next();
 };
 

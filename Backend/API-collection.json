@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "16dbdb68-1847-469e-ae95-342ada1801d7",
 		"name": "CafeGo",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "43534582"
 	},
 	"item": [
@@ -12,27 +12,24 @@
 				{
 					"name": "create",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Caffe Latte\",\n  \"description\": \"A smooth and creamy coffee drink\",\n  \"category\": \"Hot Beverage\",\n  \"basePrice\": 5.0,\n  \"imageUrl\": \"https://example.com/caffelatte.jpg\",\n  \"sizes\": [\"67e91c50596ebeef314f6367\"],  // Example size IDs\n  \"milkOptions\": [\"Regular\", \"Oat Milk\"],\n  \"extraShot\": true,\n//   \"extras\": [\"5f3b7dbad0f6c519b4fa8f7e\"],  // Example extra ID (e.g., Bacon)\n//   \"flavors\": [\"5f3b7dbad0f6c519b4fa8f7f\"],  // Example flavor ID (e.g., Vanilla)\n  \"allowMilkOptions\": true,\n  \"allowExtraShot\": true\n}\n",
+							"raw": "{\n  \"name\": \"Classic Coffee\",\n  \"description\": \"A rich and aromatic coffee made with freshly brewed espresso.\",\n  \"category\": \"Hot Coffee\",\n  \"basePrice\": 4.5,\n  \"imageUrl\": \"https://example.com/classic_coffee.jpg\",\n  \"available\": true,\n  \"sizes\": [\n    { \"label\": \"Small\", \"price\": 4.5 },\n    { \"label\": \"Medium\", \"price\": 5.0 },\n    { \"label\": \"Large\", \"price\": 5.5 }\n  ],\n  \"milkOptions\": [\n    { \"name\": \"Regular Milk\", \"price\": 0.1 },\n    { \"name\": \"Almond Milk\", \"price\": 0.5 },\n    { \"name\": \"Soy Milk\", \"price\": 0.5 }\n  ],\n  \"extras\": [\n    \"67f136b0feefda9ee7c08596\",  // _id for Syrup extra option\n    \"67f1369bfeefda9ee7c08594\"   // _id for Toppings extra option\n  ],\n  \"allowMilkOptions\": true\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{base_url}}/api/product",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"product"
-							]
-						}
+						"url": "{{base_url}}/api/product"
 					},
 					"response": []
 				},
@@ -41,13 +38,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwODcxNjIwMzk0MDg0MTQzNDc3NCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQzMTU4NTQ4LCJleHAiOjE3NDMxNjIxNDh9.RI_1z_zBB1EqLqroz9bvxoZJ8_gch88NP_Egl0ke_mc",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwODcxNjIwMzk0MDg0MTQzNDc3NCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQzMTU4NTQ4LCJleHAiOjE3NDMxNjIxNDh9.RI_1z_zBB1EqLqroz9bvxoZJ8_gch88NP_Egl0ke_mc"
+							}
 						},
 						"method": "GET",
 						"header": [],
@@ -74,11 +67,17 @@
 				{
 					"name": "update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Caffe Latte\",\n  \"description\": \"A smooth and creamy coffee drink with new milk options\",\n  \"category\": \"Cold Beverage\",\n  \"basePrice\": 5.5,\n  \"imageUrl\": \"https://example.com/caffelatte_updated.jpg\",\n  \"milkOptions\": [\"Regular\"],  // Updated milk options\n  \"extraShot\": { \n    \"price\": 1, \n    \"label\": \"Compass\" \n  },\n  \"extras\": [\"5f3b7dbad0f6c519b4fa8f7e\"],  // Updated extra options\n  \"allowMilkOptions\": true,\n  \"allowExtraShot\": false\n}\n",
+							"raw": "{\n  \"name\": \"Caffe Latte\",\n  \"description\": \"Sweet and rich caramel flavor\",\n  \"category\": \"67fc90293ab86db3f1e76abf\",\n  \"basePrice\": 5.7,\n  \"milkOptions\": [\n    { \"name\": \"Oat Milk\", \"price\": 0.5 },\n    { \"name\": \"Almond Milk\", \"price\": 0.5 }\n  ],\n   \"sizes\": [\n    { \"label\": \"Small\", \"price\": 0 },\n    { \"label\": \"Medium\", \"price\": 0.5 }\n  ],\n  \"extras\": [\"67f1369bfeefda9ee7c08594\",\"67f136b0feefda9ee7c08596\"],  // Updated extra options\n  \"allowMilkOptions\": true,\n  \"allowExtraShot\": false\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -98,7 +97,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "67e67cc27d3b4e06096ea253"
+									"value": "67fde26903808d2457227428"
 								}
 							]
 						}
@@ -110,23 +109,19 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/product/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"product",
-								""
-							]
-						}
+						"url": "{{base_url}}/api/product/"
 					},
 					"response": []
 				},
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -148,278 +143,83 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "categories",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/product/categories",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"product",
-								"categories"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "milkOptuins",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/product/categories",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"product",
-								"categories"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
 		{
-			"name": "size",
+			"name": "Auth",
 			"item": [
 				{
-					"name": "getAll",
+					"name": "OAuth2-Backend-DEV",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"useBrowser": true,
+								"client_authentication": "body",
+								"authUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+								"redirect_uri": "http://localhost:5001/auth/google/callback",
+								"scope": "profile email",
+								"clientSecret": "{{Client Secret}}",
+								"clientId": "{{Client ID}}",
+								"accessTokenUrl": "https://oauth2.googleapis.com/token",
+								"addTokenTo": "header"
+							}
+						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/size",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"size"
-							]
-						}
+						"url": "{{base_url}}/api/auth/google",
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
 					},
 					"response": []
 				},
 				{
-					"name": "getById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/size/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"size",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e61e0df54ebf03a34cef7c"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteById",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/size/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"size",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e61e0df54ebf03a34cef7c"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create",
+					"name": "login-admin",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"label\": \"Medium\",\n    \"additionalCost\": 1.5\n}",
+							"raw": "{\n    \"email\":\"test123@gmail.com\",\n    \"password\": \"test\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{base_url}}/api/size/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"size",
-								""
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "flavor",
-			"item": [
-				{
-					"name": "getAll",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/flavors",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors"
-							]
-						}
+						"url": "{{base_url}}/api/auth/login"
 					},
 					"response": []
 				},
 				{
-					"name": "getById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/flavors/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e629b1466b22736e870fb5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteById",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/flavors/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e629b1466b22736e870fb5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create",
+					"name": "login-customer",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Vanilla\",\n    \"price\": 5\n}",
+							"raw": "{\n    \"email\":\"test@example.com\",\n    \"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{base_url}}/api/flavors/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Chocolate\",\n    \"price\": 6\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/api/flavors/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e629b1466b22736e870fb5"
-								}
-							]
-						}
+						"url": "{{base_url}}/api/auth/login"
 					},
 					"response": []
 				}
@@ -433,16 +233,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/extraOption",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"extraOption"
-							]
-						}
+						"url": "{{base_url}}/api/extraOption"
 					},
 					"response": []
 				},
@@ -503,24 +294,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Sauces\",\n  \"options\": [\n    { \"label\": \"Ketchup\", \"price\": 0 },\n    { \"label\": \"Mayo\", \"price\": 1.5 },\n    { \"label\": \"BBQ Sauce\", \"price\": 2 }\n  ]\n}\n",
+							"raw": "{\n  \"name\": \"syrup\",\n  \"price\": 1.8\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{base_url}}/api/extraOption/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"extraOption",
-								""
-							]
-						}
+						"url": "{{base_url}}/api/extraOption/"
 					},
 					"response": []
 				},
@@ -561,276 +342,6 @@
 			]
 		},
 		{
-			"name": "order",
-			"item": [
-				{
-					"name": "getAll",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/order",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"order"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/order/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"order",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e920655e1697b471e9ac22"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteById Copy",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/flavors/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e629b1466b22736e870fb5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create Copy",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"userId\": \"67e91c06596ebeef314f6362\",\n  \"products\": [\n    {\n      \"productId\": \"67e91cca596ebeef314f636e\",\n      \"sizeId\": \"67e91c50596ebeef314f6367\",\n      \"milkOption\": \"Oat Milk\",\n      \"extras\": [],\n      \"flavors\": [],\n      \"quantity\": 2\n    }\n  ]\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/api/order/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"order",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update Copy",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"status\": \"completed\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/api/order/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"order",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e920655e1697b471e9ac22"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "orderDetail",
-			"item": [
-				{
-					"name": "getAll Copy",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/flavors",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getById Copy 2",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/flavors/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e629b1466b22736e870fb5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteById Copy 2",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/flavors/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e629b1466b22736e870fb5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Vanilla\",\n    \"price\": 5\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/api/orders/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"orders",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update Copy 2",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Chocolate\",\n    \"price\": 6\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/api/flavors/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"flavors",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "67e629b1466b22736e870fb5"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "user",
 			"item": [
 				{
@@ -840,43 +351,29 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"googleId\": \"12345\",\n  \"email\": \"user@example.com\",\n  \"name\": \"John Doe\",\n  \"role\": \"customer\"\n}\n",
+							"raw": "{\n  \"email\": \"test1@example.com\",\n  \"name\": \"New Admin\",\n  \"password\": \"123456\",\n  \"roles\": [\"admin\"] \n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{base_url}}/api/user/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								""
-							]
-						}
+						"url": "{{base_url}}/api/user/"
 					},
 					"response": []
 				},
 				{
 					"name": "getAllUsers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/user/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								""
-							]
-						}
+						"url": "{{base_url}}/api/user/"
 					},
 					"response": []
 				},
@@ -898,7 +395,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "67e7f4919cc35d6c28cd6994"
+									"value": "67ff1cd5d094022ec49328e5"
 								}
 							]
 						}
@@ -908,11 +405,17 @@
 				{
 					"name": "updateUser",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYyYjNkMWVhNzMyMDU3ZTZjYjkwNCIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNDI1LCJleHAiOjE3NDQ3ODQwMjV9.O3nZV-0Va_U9V0VpCJ81iwKenJEjx_LEmeuzY8WXPog"
+							}
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"role\": \"admin\"\n}\n",
+							"raw": "{\n  \"roles\": [\"67ff1989d0b4b82d0f64ca5c\",\"67ff1982d0b4b82d0f64ca59\"]\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -932,7 +435,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "67e7f4919cc35d6c28cd6994"
+									"value": "67ff31ad1c2cbd23b2c00196"
 								}
 							]
 						}
@@ -942,6 +445,12 @@
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -957,7 +466,287 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "67e7f8ad359faea00c337086"
+									"value": "67ff2a96b385ce4287ffc527"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Smoothie\",\n  \"description\": \"Fruity and blended drinks\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/category/"
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/category/"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/category/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67fb48c7e1b3f437affeb7b1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Iced Tea\",\n  \"description\": \"Cool refreshing tea\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/category/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67fb59bae1b3f437affeb7b8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/category/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67fa0add5f29ba7e7112eea7"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "role",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"manager\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/role/"
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/role/"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/role/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"role",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff1989d0b4b82d0f64ca5c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"customer\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/role/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"role",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff1989d0b4b82d0f64ca5c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/role/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"role",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff1a28d0b4b82d0f64ca8c"
 								}
 							]
 						}
