@@ -16,7 +16,7 @@ export default function CustomerHomePage() {
     <Header/>
     <Box
       style={{
-        backgroundImage: "url('/images/login/login.jpg')",
+        backgroundImage: `url(${ import.meta.env.VITE_BASENAME}images/login/login.jpg)`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "100vh",

@@ -7,6 +7,7 @@ import {
   Title,
 } from "@mantine/core";
 import { updateCategory } from "../api/category";
+import { notifications } from '@mantine/notifications';
 
 export default function EditCategoryModal({ opened, onClose, category, onSuccess }) {
   
@@ -34,6 +35,14 @@ const [form, setForm] = useState({
 
   const handleSubmit = async () => {
     try {
+      if (!form.name.trim()) {
+        notifications.show({
+          title: "Validation Error",
+          message: "Category name is required",
+          color: "red",
+        });
+        return;
+      }
       setLoading(true);
       const res = await updateCategory(category._id, form);
       // console.log("res -> "+ res);

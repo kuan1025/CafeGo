@@ -70,3 +70,17 @@ exports.deleteRoleById = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
+
+
+exports.createDefaultRoles = async()=> {
+  const roles = ['admin', 'customer'];
+  for (const name of roles) {
+    const exists = await Role.findOne({ name });
+    if (!exists) {
+      await Role.create({ name });
+      console.log(` Created role: ${name}`);
+    } else {
+      console.log(` Role already exists: ${name}`);
+    }
+  }
+}

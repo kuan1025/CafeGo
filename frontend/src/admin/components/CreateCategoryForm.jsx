@@ -4,6 +4,7 @@ import { createCategory } from "../api/category";
 import { notifications } from '@mantine/notifications';
 
 export default function CreateCategoryForm() {
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     description: ""
@@ -14,6 +15,18 @@ export default function CreateCategoryForm() {
   };
 
   const handleSubmit = async () => {
+
+    // input validation
+    if (!form.name) {
+      notifications.show({
+        title: "Validation Error",
+        message: "Category Name is required!",
+        color: "red",
+      });
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await createCategory(form);
       if (res.success) {
@@ -31,6 +44,8 @@ export default function CreateCategoryForm() {
         message: err.message,
         color: "red",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +69,7 @@ export default function CreateCategoryForm() {
       />
 
       <Group mt="md">
-        <Button onClick={handleSubmit}>Create</Button>
+        <Button onClick={handleSubmit} loading={loading} >Create</Button>
       </Group>
     </Paper>
   );

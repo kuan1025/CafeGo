@@ -8,6 +8,11 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const cookieParser = require("cookie-parser");
 const rateLimit = require('express-rate-limit');
+const {createDefaultUser} = require('./src/controllers/userController');
+const {createDefaultRoles} = require('./src/controllers/roleController')
+const path = require("path");
+
+
 
 
 
@@ -16,7 +21,7 @@ dotenv.config();
 
 // set CORS & JSON body 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true,
   exposedHeaders: ["Authorization", "Link"],// pagination
 }));
@@ -24,15 +29,19 @@ app.use(express.json());
 
 
 // product image upload
-app.use("/api/uploads", express.static("uploads"));
+app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // session OAuth2
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', 
+    httpOnly: true, 
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax' // cross site cookie
+  } // prod -> https
 }));
 
 // cookie
@@ -70,6 +79,8 @@ main().catch((err) => console.log(err));
 // MongoDB
 async function main() {
   await mongoose.connect(mongoDB);
+  await createDefaultRoles();
+  await createDefaultUser();
 }
 
 

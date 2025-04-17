@@ -209,7 +209,10 @@ export default function ViewProducts() {
 
             <EditProductModal
             opened={editModalOpened}
-            onClose={() => setEditModalOpened(false)}
+            onClose={() => {
+                setEditModalOpened(false);
+                setSelectedProduct(null);
+            }}
             product={selectedProduct}
             onSave={handleUpdateProduct}
             categories={categories}

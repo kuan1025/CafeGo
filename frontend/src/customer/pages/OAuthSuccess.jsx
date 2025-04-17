@@ -7,7 +7,7 @@ export default function OAuthSuccessPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/auth/getMe", {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/getMe`, {
       credentials: "include" // carry cookie!
     })
       .then((res) => res.json())

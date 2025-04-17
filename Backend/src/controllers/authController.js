@@ -18,15 +18,30 @@ exports.googleCallback = (req, res, next) => {
 
     const { user, token } = data;
 
-    // save in cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days (test)
+    req.login(user, (err) => {
+      if (err) return next(err);
+    
+     
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+      });
+    
+      const clientURL = process.env.CLIENT_URL || "http://localhost:5173";
+      res.redirect(`${clientURL}/cafeGo/oauth-success`);
     });
 
-    res.redirect("http://localhost:5173/oauth-success");
+    // save in cookie
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days (test)
+    // });
+   
+    
     // const redirectUrl = `http://localhost:5173/oauth-success?token=${token}&name=${encodeURIComponent(user.name)}&email=${user.email}&role=${user.role}`;
     // res.redirect(redirectUrl);
 

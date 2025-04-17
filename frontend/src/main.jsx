@@ -7,9 +7,16 @@ import { CartProvider } from "./customer/context/CartContext";
 import { Notifications } from '@mantine/notifications';
 import { AuthProvider } from './customer/context/AuthContext';
 
+// eslint-disable-next-line no-undef
+const basename = import.meta.env.VITE_BASENAME || '/';
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
+
+
+
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename} >
       <Notifications />
       <MantineProvider withGlobalStyles >
         <AuthProvider>

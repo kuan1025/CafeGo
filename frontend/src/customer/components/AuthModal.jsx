@@ -6,11 +6,37 @@ import { notifications } from '@mantine/notifications';
 
 export default function AuthModal({ opened, onClose, onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
+
+  const [errors, setErrors] = useState({});
+
   const [form, setForm] = useState({
     email: "",
     password: "",
     name: "",
   });
+
+  // validation
+  const validateForm = () => {
+    const validationErrors = {};
+
+    if (!form.email) {
+      validationErrors.email = "Email is required";
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form.email)) {
+      validationErrors.email = "Invalid email format";
+    }
+
+    if (!form.password) {
+      validationErrors.password = "Password is required";
+    } else if (form.password.length < 4) {
+      validationErrors.password = "Password must be at least 4 characters";
+    }
+    if (!isLogin && !form.name) {
+      validationErrors.name = "Name is required for sign-up";
+    }
+    setErrors(validationErrors);
+
+    return Object.keys(validationErrors).length === 0;
+  };
 
 
 
@@ -21,6 +47,7 @@ export default function AuthModal({ opened, onClose, onLoginSuccess }) {
 
   const handleSubmit = async () => {
     try {
+      if (!validateForm()) return;
       if (isLogin) {
         const res = await login(form);
         console.log("Login success:", res);
@@ -60,6 +87,7 @@ export default function AuthModal({ opened, onClose, onLoginSuccess }) {
         {!isLogin && (
           <TextInput
             label="Name"
+            error={errors.name}
             placeholder="name"
             value={form.name}
             onChange={(e) => handleChange("name", e.target.value)}
@@ -68,12 +96,14 @@ export default function AuthModal({ opened, onClose, onLoginSuccess }) {
         )}
         <TextInput
           label="Email"
+          error={errors.email}
           placeholder="email address"
           value={form.email}
           onChange={(e) => handleChange("email", e.target.value)}
           required
         />
         <PasswordInput
+          error={errors.password}
           label="Password"
           placeholder="password"
           value={form.password}

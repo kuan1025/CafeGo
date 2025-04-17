@@ -29,6 +29,20 @@ export default function CreateProductForm() {
   const [selectedExtraOptions, setSelectedExtraOptions] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
 
+  // loading
+  const [loading, setLoading] = useState(false);
+
+  // error Msg
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!name.trim()) newErrors.name = "Product name is required";
+    if (!category) newErrors.category = "Category is required";
+    if (basePrice <= 0) newErrors.basePrice = "Base price must be greater than 0";
+    if (selectedSizes.length === 0) newErrors.selectedSizes = "At least one size must be selected";
+    return newErrors;
+  };
 
 
   //template
@@ -49,6 +63,20 @@ export default function CreateProductForm() {
 
   // submit form
   const handleSubmit = async () => {
+    setLoading(true);
+    // validation
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      notifications.show({
+        title: "Form Error",
+        message: "Please correct the error fields",
+        color: "red",
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("image", image);
@@ -83,7 +111,6 @@ export default function CreateProductForm() {
         setImage(null);
         setImageUrl("");
       } else {
-        console.log(res.status)
         notifications.show({
           title: "Error",
           message: "Server responded with an error",
@@ -93,11 +120,13 @@ export default function CreateProductForm() {
     } catch (error) {
       console.error("Create product error:", error);
 
-    notifications.show({
-      title: "Error",
-      message: "Failed to create product!! Please try again",
-      color: "red",
-    });
+      notifications.show({
+        title: "Error",
+        message: "Failed to create product!! Please try again",
+        color: "red",
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -145,11 +174,11 @@ export default function CreateProductForm() {
         {/* Product Basic Info */}
         <Card shadow="sm" p="lg" radius="md">
           <Stack>
-            <TextInput label="Product Name" required value={name} onChange={(e) => setName(e.target.value)} />
+            <TextInput label="Product Name" required value={name} onChange={(e) => setName(e.target.value)} error={errors.name} />
             <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
             <Select label="Category" withinPortal
-              data={categories} required value={category} onChange={setCategory} />
-            <NumberInput label="Base Price" required precision={2} value={basePrice} onChange={setBasePrice} />
+              data={categories} required value={category} onChange={setCategory} error={errors.category} />
+            <NumberInput label="Base Price" required precision={2} value={basePrice} onChange={setBasePrice} error={errors.basePrice} />
           </Stack>
         </Card>
 
@@ -231,6 +260,11 @@ export default function CreateProductForm() {
               );
             })}
           </Stack>
+          {errors.selectedSizes && (
+            <Text color="red" size="sm">
+              {errors.selectedSizes}
+            </Text>
+          )}
         </Card>
 
 
@@ -341,7 +375,7 @@ export default function CreateProductForm() {
         </Card>
 
         {/* Submit Button */}
-        <Button fullWidth mt="md" color="green" onClick={handleSubmit}>
+        <Button fullWidth mt="md" color="green" loading={loading} onClick={handleSubmit}>
           Submit Product
         </Button>
       </Stack>

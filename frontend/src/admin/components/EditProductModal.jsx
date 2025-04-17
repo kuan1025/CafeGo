@@ -34,6 +34,7 @@ export default function EditProductModal({ opened, onClose, product, onSave, cat
             setAllowMilkOptions(product.allowMilkOptions || false);
             setSizes(product.sizes || []);
             setMilkOptions(product.milkOptions || []);
+            setImageFile(null);
         }
     }, [product]);
 
@@ -58,7 +59,54 @@ export default function EditProductModal({ opened, onClose, product, onSave, cat
     const addMilkOption = () => setMilkOptions([...milkOptions, { name: "", price: 0 }]);
     const removeMilkOption = (index) => setMilkOptions(milkOptions.filter((_, i) => i !== index));
 
+    // validation
+    const validateForm = () => {
+        const newErrors = {};
+
+        // Basic Validation
+        if (!name.trim()) newErrors.name = "Product name is required";
+        if (!category) newErrors.category = "Category is required";
+        if (basePrice <= 0) newErrors.basePrice = "Base price must be greater than 0";
+
+        // Validate sizes - Ensure at least one size
+        if (sizes.length === 0)
+            newErrors.sizes = "At least one size is required";
+        else {
+            sizes.forEach((size, index) => {
+                if (!size.label.trim()) {
+                    newErrors[`size-${index}-label`] = `Size ${index + 1} label is required`
+                };
+                if (size.price < 0 || isNaN(size.price)) {
+                    newErrors[`size-${index}-price`] = `Size ${index + 1} price must be a valid number >= 0`;
+                }
+            });
+        }
+
+        // Validate milk options if allowed
+        if (allowMilkOptions) {
+            milkOptions.forEach((milk, index) => {
+                if (!milk.name.trim()) newErrors[`milk-${index}-name`] = `Milk option ${index + 1} name is required`;
+            });
+        }
+
+        return newErrors;
+    };
+
+
     const handleSubmit = async () => {
+
+        const errors = validateForm();
+        if (Object.keys(errors).length > 0) {
+            for (let field in errors) {
+                notifications.show({
+                    title: 'Validation Error',
+                    message: errors[field],
+                    color: 'red',
+                });
+            }
+            return;
+        }
+
         setLoading(true);
         const formData = new FormData();
         formData.append("name", name);

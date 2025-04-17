@@ -11,10 +11,10 @@ dotenv.config();
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:5001/api/auth/google/callback"
+  callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:5001/api/auth/google/callback"
 },
   async (accessToken, refreshToken, profile, done) => {
-
+    console.log('Google profile:', profile);
     const email = profile.emails[0].value;
     const googleId = profile.id;
 
@@ -46,9 +46,28 @@ passport.use(new GoogleStrategy({
       id: user._id,
       roles: user.roles.map(r => r.name)
     });
-
+    console.log("token is : "+ token)
     return done(null, { user, token });
   }
 ));
+
+passport.serializeUser((data, done) => {
+
+  if (data) {
+    done(null, data._id); 
+  } else {
+    done(new Error("User not found"), null);
+  }
+});
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id).populate('roles', 'name');
+    if (!user) return done(null, false);  
+    return done(null, user); 
+  } catch (err) {
+    done(err, null);
+  }
+});
+
 
 module.exports = passport;

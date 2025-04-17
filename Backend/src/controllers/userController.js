@@ -1,5 +1,6 @@
 const User = require('../models/User');
-const Role = require('../models/Role')
+const Role = require('../models/Role');
+
 
 
 exports.createUser = async (req, res) => {
@@ -17,7 +18,7 @@ exports.createUser = async (req, res) => {
 
     if (!googleId) googleId = '';
 
-    const newUser = new User({ googleId, email, name, roles: [customerRole._id] , password});
+    const newUser = new User({ googleId, email, name, roles: [customerRole._id], password });
     await newUser.save();
     res.status(201).json({ message: 'User created successfully', user: newUser });
   } catch (error) {
@@ -28,57 +29,93 @@ exports.createUser = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res) => {
-    try {
-      const users = await User.find().populate('roles', 'name');
-      res.status(200).json(users);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching users', error });
-    }
+  try {
+    const users = await User.find().populate('roles', 'name');
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users', error });
+  }
 };
 
 
 
 
 exports.updateUser = async (req, res) => {
-    try {
+  try {
 
-      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('roles', 'name');
-      if (!updatedUser) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-      res.status(200).json(updatedUser);
-    } catch (error) {
-      res.status(500).json({ message: 'Error updating user', error });
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('roles', 'name');
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  };
-  
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating user', error });
+  }
+};
+
 
 exports.deleteUser = async (req, res) => {
-    try {
-      const deletedUser = await User.findByIdAndDelete(req.params.id);
-      if (!deletedUser) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-      res.status(200).json({ message: 'User deleted successfully' });
-    } catch (error) {
-      res.status(500).json({ message: 'Error deleting user', error });
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  };
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting user', error });
+  }
+};
 
-  exports.getUserById = async (req, res) => {
-    try {
-      const user = await User.findById(req.params.id).populate('roles', 'name');
-  
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      res.status(200).json(user);
-    } catch (error) {
-      console.error('Error fetching user by ID:', error);
-      res.status(500).json({ message: 'Error fetching user', error });
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate('roles', 'name');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  };
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user by ID:', error);
+    res.status(500).json({ message: 'Error fetching user', error });
+  }
+};
+
+exports.createDefaultUser = async () => {
   
-  
-  
+  await User.deleteMany({ email: { $in: ['admin@gmail.com', 'customer@gmail.com'] } });
+  const users = [
+    {
+      name: 'admin',
+      email: 'admin@gmail.com',
+      password: 'admin',
+      role: ['admin', 'customer'], 
+    },
+    {
+      name: 'customer',
+      email: 'customer@gmail.com',
+      password: 'customer',
+      role: ['customer'], 
+    },
+  ];
+
+  for (const user of users) {
+    const existing = await User.findOne({ email: user.email });
+    if (!existing) {
+      const roleIds = await Role.find({ name: { $in: user.role } }).select('_id');
+      const newUser = new User({
+        ...user,
+        roles: roleIds,  
+        password: user.password, 
+      });
+      await newUser.save();
+      console.log(`Created default user: ${user.email}`);
+    } else {
+      console.log(`User already exists: ${user.email}`);
+    }
+  }
+};
+
+
+
+

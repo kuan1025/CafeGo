@@ -19,7 +19,7 @@ export default function Header() {
     >
       <Text
         component="a"
-        href="/"
+        href={`${import.meta.env.VITE_BASENAME}`}
         fw={900}
         size="24px"
         style={{
@@ -57,7 +57,7 @@ export default function Header() {
               <Menu.Item
                 icon={<IconDashboard size={16} />}
                 component="a"
-                href="/admin/home"
+                href={`${import.meta.env.VITE_BASENAME}admin/home`}
               >
                 Admin Page
               </Menu.Item>
@@ -66,7 +66,7 @@ export default function Header() {
               <Menu.Item
                 icon={<IconToolsKitchen2 size={16} />}
                 component="a"
-                href="/menu"
+                href={`${import.meta.env.VITE_BASENAME}menu`}
               >
                 Customer Page
               </Menu.Item>
