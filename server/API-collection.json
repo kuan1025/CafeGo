@@ -1,0 +1,887 @@
+{
+	"info": {
+		"_postman_id": "16dbdb68-1847-469e-ae95-342ada1801d7",
+		"name": "CafeGo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "43534582"
+	},
+	"item": [
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let token = pm.environment.get(\"jwt_token\");",
+									"",
+									"if (!token) {",
+									"    console.log(\"No JWT token found. Please login first.\");",
+									"} else {",
+									"    pm.request.headers.add({",
+									"        key: \"Authorization\",",
+									"        value: \"Bearer \" + token",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.environment.set(\"productId\", responseJson._id);",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Classic Coffee\",\n  \"description\": \"A rich and aromatic coffee made with freshly brewed espresso.\",\n  \"category\": \"67fc90293ab86db3f1e76abf\",\n  \"basePrice\": 4.5,\n  \"available\": true,\n  \"allowMilkOptions\": \"true\",  \n  \"sizes\": \"[{\\\"label\\\": \\\"Small\\\", \\\"price\\\": 4.5}, {\\\"label\\\": \\\"Medium\\\", \\\"price\\\": 5.0}, {\\\"label\\\": \\\"Large\\\", \\\"price\\\": 5.5}]\",\n  \"milkOptions\": \"[{\\\"name\\\": \\\"Regular Milk\\\", \\\"price\\\": 0.1}, {\\\"name\\\": \\\"Almond Milk\\\", \\\"price\\\": 0.5}, {\\\"name\\\": \\\"Soy Milk\\\", \\\"price\\\": 0.5}]\",\n  \"extras\": \"[\\\"67f136b0feefda9ee7c08596\\\", \\\"67f1369bfeefda9ee7c08594\\\"]\",\n  \"imageUrl\": \"https://example.com/classic_coffee.jpg\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/product"
+					},
+					"response": []
+				},
+				{
+					"name": "getProductById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwODcxNjIwMzk0MDg0MTQzNDc3NCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQzMTU4NTQ4LCJleHAiOjE3NDMxNjIxNDh9.RI_1z_zBB1EqLqroz9bvxoZJ8_gch88NP_Egl0ke_mc"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/product/{{productId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let token = pm.environment.get(\"jwt_token\");",
+									"",
+									"if (!token) {",
+									"    console.log(\"No JWT token found. Please login first.\");",
+									"} else {",
+									"    pm.request.headers.add({",
+									"        key: \"Authorization\",",
+									"        value: \"Bearer \" + token",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": ""
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Classic Coffee\",\n  \"description\": \"update\",\n  \"category\": \"67fc90293ab86db3f1e76abf\",\n  \"basePrice\": 4.5,\n  \"available\": true,\n  \"allowMilkOptions\": \"true\",  \n  \"sizes\": \"[{\\\"label\\\": \\\"Small\\\", \\\"price\\\": 4.5}, {\\\"label\\\": \\\"Medium\\\", \\\"price\\\": 5.0}, {\\\"label\\\": \\\"Large\\\", \\\"price\\\": 5.5}]\",\n  \"milkOptions\": \"[{\\\"name\\\": \\\"Regular Milk\\\", \\\"price\\\": 0.1}, {\\\"name\\\": \\\"Almond Milk\\\", \\\"price\\\": 0.5}, {\\\"name\\\": \\\"Soy Milk\\\", \\\"price\\\": 0.5}]\",\n  \"extras\": \"[\\\"67f136b0feefda9ee7c08596\\\", \\\"67f1369bfeefda9ee7c08594\\\"]\",\n  \"imageUrl\": \"https://example.com/classic_coffee.jpg\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/product/{{productId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/product/"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let token = pm.environment.get(\"jwt_token\");",
+									"",
+									"if (!token) {",
+									"    console.log(\"No JWT token found. Please login first.\");",
+									"} else {",
+									"    pm.request.headers.add({",
+									"        key: \"Authorization\",",
+									"        value: \"Bearer \" + token",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": ""
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{base_url}}/api/product/{{productId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "OAuth2-Backend-DEV",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"useBrowser": true,
+								"client_authentication": "body",
+								"authUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+								"redirect_uri": "http://localhost:5001/auth/google/callback",
+								"scope": "profile email",
+								"clientSecret": "{{Client Secret}}",
+								"clientId": "{{Client ID}}",
+								"accessTokenUrl": "https://oauth2.googleapis.com/token",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/auth/google",
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "login-admin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"if (pm.response.code === 200) {",
+									"",
+									"    var jsonResponse = pm.response.json();",
+									"",
+									"    pm.environment.set(\"jwt_token\", jsonResponse.token);",
+									"    ",
+									"",
+									"    console.log(\"JWT Token saved: \" + jsonResponse.token);",
+									"} else {",
+									"    console.log(\"Error: Unable to fetch token. Response code: \" + pm.response.code);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"test123@gmail.com\",\n    \"password\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "login-customer",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"if (pm.response.code === 200) {",
+									"",
+									"    var jsonResponse = pm.response.json();",
+									"",
+									"    pm.environment.set(\"jwt_token\", jsonResponse.token);",
+									"    ",
+									"",
+									"    console.log(\"JWT Token saved: \" + jsonResponse.token);",
+									"} else {",
+									"    console.log(\"Error: Unable to fetch token. Response code: \" + pm.response.code);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"test@example.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/auth/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "extraOption",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/extraOption"
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/extraOption/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67a775b6c71ce6a95785c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/extraOption/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67a775b6c71ce6a95785c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"syrup\",\n  \"price\": 1.8\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/extraOption/"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Sauces\",\n  \"options\": [\n    { \"label\": \"Ketchup\", \"price\": 1 },\n    { \"label\": \"Mayo\", \"price\": 2.5 },\n    { \"label\": \"BBQ Sauce\", \"price\": 3.5 },\n    { \"label\": \"Honey Mustard\", \"price\": 1.8 }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/extraOption/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"extraOption",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67e67a775b6c71ce6a95785c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test1@example.com\",\n  \"name\": \"New Admin\",\n  \"password\": \"123456\",\n  \"roles\": [\"admin\"] \n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/user/"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/user/"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff1cd5d094022ec49328e5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYyYjNkMWVhNzMyMDU3ZTZjYjkwNCIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNDI1LCJleHAiOjE3NDQ3ODQwMjV9.O3nZV-0Va_U9V0VpCJ81iwKenJEjx_LEmeuzY8WXPog"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"roles\": [\"67ff1989d0b4b82d0f64ca5c\",\"67ff1982d0b4b82d0f64ca59\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff31ad1c2cbd23b2c00196"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff2a96b385ce4287ffc527"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Smoothie\",\n  \"description\": \"Fruity and blended drinks\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/category/"
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/category/"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/category/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67fb48c7e1b3f437affeb7b1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Iced Tea\",\n  \"description\": \"Cool refreshing tea\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/category/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67fb59bae1b3f437affeb7b8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/category/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67fa0add5f29ba7e7112eea7"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "role",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"manager\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/api/role/"
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/role/"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/role/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"role",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff1989d0b4b82d0f64ca5c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"customer\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/role/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"role",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff1989d0b4b82d0f64ca5c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmYzMWFkMWMyY2JkMjNiMmMwMDE5NiIsInJvbGVzIjpbImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzQ0NzgwNjY0LCJleHAiOjE3NDQ3ODQyNjR9.UM4qdod-0Id0GqOx5ho9nlThMJF8Pv4X_tkUakr0l48"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/role/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"role",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "67ff1a28d0b4b82d0f64ca8c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
